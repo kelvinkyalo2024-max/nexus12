@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#080d18">
+<title>NEXUS-12 | Autonomous AI Engineer</title>
+
+<style>
+:root{
+ --bg:#080d18;
+ --panel:#111a2a;
+ --panel2:#172338;
+ --line:#26364e;
+ --text:#edf4ff;
+ --muted:#91a2ba;
+ --mint:#55e6c1;
+ --gold:#e8bd72;
+ --red:#ff6b79;
+ --blue:#70a9ff;
+}
+*{box-sizing:border-box}
+body{
+ margin:0;
+ background:var(--bg);
+ color:var(--text);
+ font-family:Inter,Arial,sans-serif;
+}
+header{
+ height:70px;
+ border-bottom:1px solid var(--line);
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ padding:0 25px;
+ background:#0c1422;
+ position:sticky;
+ top:0;
+ z-index:5;
+}
+.logo{
+ font-weight:950;
+ letter-spacing:2px;
+ font-size:20px;
+}
+.logo span{color:var(--mint)}
+.header-right{
+ display:flex;
+ gap:10px;
+ align-items:center;
+}
+.status{
+ display:flex;
+ align-items:center;
+ gap:8px;
+ font-size:12px;
+ color:var(--muted);
+}
+.dot{
+ height:8px;
+ width:8px;
+ border-radius:50%;
+ background:#68778b;
+}
+.dot.active{
+ background:var(--mint);
+ box-shadow:0 0 12px var(--mint);
+}
+main{
+ max-width:1250px;
+ margin:auto;
+ padding:25px 20px 60px;
+}
+.hero{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ gap:20px;
+ flex-wrap:wrap;
+ margin-bottom:25px;
+}
+.eyebrow{
+ color:var(--mint);
+ letter-spacing:3px;
+ font-size:10px;
+ font-weight:900;
+}
+h1{
+ font-size:clamp(30px,5vw,48px);
+ margin:9px 0;
+ letter-spacing:-2px;
+}
+.subtitle{
+ color:var(--muted);
+ font-size:14px;
+}
+.tag{
+ border:1px solid #315b58;
+ color:var(--mint);
+ background:#102d2b;
+ padding:9px 13px;
+ border-radius:30px;
+ font-size:11px;
+ font-weight:800;
+}
+.grid{
+ display:grid;
+ grid-template-columns:repeat(4,1fr);
+ gap:13px;
+ margin:20px 0;
+}
+.card{
+ background:var(--panel);
+ border:1px solid var(--line);
+ border-radius:17px;
+ padding:18px;
+ min-width:0;
+}
+.stat-label{
+ color:var(--muted);
+ font-size:11px;
+}
+.stat-value{
+ font-size:26px;
+ font-weight:900;
+ margin-top:9px;
+}
+.green{color:var(--mint)}
+.gold{color:var(--gold)}
+.blue{color:var(--blue)}
+.layout{
+ display:grid;
+ grid-template-columns:1.4fr .8fr;
+ gap:16px;
+ align-items:start;
+}
+.section-title{
+ font-size:15px;
+ font-weight:850;
+ margin:0 0 16px;
+}
+textarea,input{
+ width:100%;
+ background:#091321;
+ border:1px solid var(--line);
+ border-radius:12px;
+ color:white;
+ padding:14px;
+ font:inherit;
+ outline:none;
+}
+textarea{
+ min-height:135px;
+ resize:vertical;
+ line-height:1.6;
+}
+textarea:focus,input:focus{
+ border-color:var(--mint);
+}
+label{
+ display:block;
+ color:var(--muted);
+ font-size:11px;
+ margin:14px 0 8px;
+}
+button{
+ border:0;
+ border-radius:11px;
+ padding:12px 16px;
+ cursor:pointer;
+ font-weight:800;
+ font-size:12px;
+ transition:.2s;
+}
+button:hover{filter:brightness(1.12)}
+button:disabled{
+ opacity:.4;
+ cursor:not-allowed;
+}
+.primary{
+ background:var(--mint);
+ color:#06251e;
+}
+.secondary{
+ background:#253650;
+ color:white;
+}
+.danger{
+ background:#49242d;
+ color:#ffb4be;
+}
+.gold-btn{
+ background:var(--gold);
+ color:#251b0b;
+}
+.actions{
+ display:flex;
+ flex-wrap:wrap;
+ gap:9px;
+ margin-top:15px;
+}
+.progress{
+ height:8px;
+ background:#263449;
+ border-radius:20px;
+ overflow:hidden;
+ margin:15px 0 8px;
+}
+.progress span{
+ display:block;
+ height:100%;
+ width:0;
+ background:var(--mint);
+ transition:width .3s;
+}
+.timer{
+ font-size:38px;
+ font-weight:950;
+ letter-spacing:2px;
+ font-variant-numeric:tabular-nums;
+ margin:13px 0;
+}
+.timer-note{
+ color:var(--muted);
+ font-size:11px;
+ line-height:1.6;
+}
+.log{
+ max-height:330px;
+ overflow:auto;
+ display:flex;
+ flex-direction:column;
+ gap:9px;
+}
+.log-item{
+ background:#0a1422;
+ border:1px solid #23334a;
+ border-radius:10px;
+ padding:11px;
+ font-size:11px;
+ line-height:1.5;
+}
+.log-time{
+ color:var(--mint);
+ font-size:10px;
+ margin-bottom:4px;
+}
+.log-empty{
+ color:var(--muted);
+ font-size:12px;
+ padding:15px 0;
+}
+.badge{
+ font-size:10px;
+ padding:5px 8px;
+ border-radius:20px;
+ background:#26364e;
+ color:#c8d8ee;
+}
+.feature{
+ display:flex;
+ gap:12px;
+ align-items:flex-start;
+ margin:15px 0;
+}
+.feature-icon{
+ width:34px;
+ height:34px;
+ display:grid;
+ place-items:center;
+ background:#20344a;
+ border-radius:10px;
+ flex-shrink:0;
+}
+.feature b{
+ display:block;
+ font-size:12px;
+ margin-bottom:4px;
+}
+.feature p{
+ margin:0;
+ font-size:11px;
+ line-height:1.6;
+ color:var(--muted);
+}
+.footer{
+ text-align:center;
+ color:#64748b;
+ font-size:10px;
+ padding:30px 0;
+}
+.modal{
+ display:none;
+ position:fixed;
+ inset:0;
+ background:#000c;
+ z-index:10;
+ align-items:center;
+ justify-content:center;
+ padding:20px;
+}
+.modal-content{
+ width:min(650px,100%);
+ max-height:85vh;
+ overflow:auto;
+ background:var(--panel);
+ border:1px solid var(--line);
+ border-radius:18px;
+ padding:22px;
+}
+pre{
+ white-space:pre-wrap;
+ overflow-wrap:anywhere;
+ color:#c8f8e9;
+ background:#081321;
+ border:1px solid var(--line);
+ border-radius:12px;
+ padding:14px;
+ font-size:11px;
+ line-height:1.6;
+}
+@media(max-width:800px){
+ .grid{grid-template-columns:repeat(2,1fr)}
+ .layout{grid-template-columns:1fr}
+}
+@media(max-width:480px){
+ header{padding:0 13px}
+ .logo{font-size:16px}
+ main{padding:20px 13px}
+ .grid{gap:8px}
+ .card{padding:13px}
+ .stat-value{font-size:21px}
+ .timer{font-size:30px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+ <div class="logo">NEXUS<span>-12</span></div>
+
+ <div class="header-right">
+  <div class="status">
+   <span class="dot" id="statusDot"></span>
+   <span id="statusText">STANDBY</span>
+  </div>
+  <span class="badge">AI ENGINEER</span>
+ </div>
+</header>
+
+<main>
+
+ <section class="hero">
+  <div>
+   <div class="eyebrow">AUTONOMOUS DEVELOPMENT SYSTEM</div>
+   <h1>Build. Test. Deliver.</h1>
+   <div class="subtitle">
+    Your autonomous software engineering command center.
+   </div>
+  </div>
+  <div class="tag">MAX SESSION · 12 HOURS</div>
+ </section>
+
+ <section class="grid">
+
+  <div class="card">
+   <div class="stat-label">AGENT STATUS</div>
+   <div class="stat-value green" id="statStatus">IDLE</div>
+  </div>
+
+  <div class="card">
+   <div class="stat-label">SESSION TIME</div>
+   <div class="stat-value gold" id="statTime">00:00:00</div>
+  </div>
+
+  <div class="card">
+   <div class="stat-label">TASKS COMPLETED</div>
+   <div class="stat-value blue" id="statTasks">0</div>
+  </div>
+
+  <div class="card">
+   <div class="stat-label">SESSION LIMIT</div>
+   <div class="stat-value">12:00:00</div>
+  </div>
+
+ </section>
+
+ <div class="layout">
+
+  <div>
+
+   <section class="card">
+    <h2 class="section-title">01 / Assign a mission</h2>
+
+    <label for="mission">WHAT SHOULD NEXUS-12 BUILD OR DO?</label>
+
+    <textarea id="mission"
+     placeholder="Example: Build a responsive online marketplace with user registration, product listings, search, an admin dashboard and a database."></textarea>
+
+    <div class="actions">
+     <button class="primary" id="startBtn" onclick="startAgent()">
+      ▶ Start agent
+     </button>
+
+     <button class="secondary" id="pauseBtn" onclick="pauseAgent()" disabled>
+      Ⅱ Pause
+     </button>
+
+     <button class="danger" id="stopBtn" onclick="stopAgent()" disabled>
+      ■ Stop
+     </button>
+    </div>
+
+    <div class="progress">
+     <span id="progressBar"></span>
+    </div>
+
+    <div class="timer-note" id="progressText">
+     Waiting for a mission.
+    </div>
+
+   </section>
+
+   <section class="card" style="margin-top:16px">
+    <h2 class="section-title">02 / Session monitor</h2>
+
+    <div class="eyebrow">TIME REMAINING</div>
+    <div class="timer" id="countdown">12:00:00</div>
+
+    <div class="timer-note">
+     The maximum session duration is 12 hours.
+     The timer begins when you start a session.
+    </div>
+
+    <div class="actions">
+     <button class="secondary" onclick="addLog('Checkpoint requested by operator.')">
+      Save checkpoint
+     </button>
+
+     <button class="gold-btn" onclick="showPrompt()">
+      View agent instructions
+     </button>
+    </div>
+   </section>
+
+   <section class="card" style="margin-top:16px">
+    <h2 class="section-title">03 / Activity stream</h2>
+
+    <div class="log" id="activityLog">
+     <div class="log-empty">
+      NEXUS-12 is standing by. Assign a mission to begin.
+     </div>
+    </div>
+
+    <div class="actions">
+     <button class="secondary" onclick="clearLogs()">Clear logs</button>
+    </div>
+   </section>
+
+  </div>
+
+  <div>
+
+   <section class="card">
+    <h2 class="section-title">Agent capabilities</h2>
+
+    <div class="feature">
+     <div class="feature-icon">⌨</div>
+     <div>
+      <b>Software development</b>
+      <p>HTML, CSS, JavaScript, Python, React and application development.</p>
+     </div>
+    </div>
+
+    <div class="feature">
+     <div class="feature-icon">⌕</div>
+     <div>
+      <b>Technical research</b>
+      <p>Documentation, technical investigations and solution discovery.</p>
+     </div>
+    </div>
+
+    <div class="feature">
+     <div class="feature-icon">⚙</div>
+     <div>
+      <b>Browser automation</b>
+      <p>Navigate permitted websites, interact with interfaces and test applications when connected to a browser automation backend.</p>
+     </div>
+    </div>
+
+    <div class="feature">
+     <div class="feature-icon">✓</div>
+     <div>
+      <b>Testing and debugging</b>
+      <p>Inspect errors, validate features and improve existing code.</p>
+     </div>
+    </div>
+
+   </section>
+
+   <section class="card" style="margin-top:16px">
+    <h2 class="section-title">System configuration</h2>
+
+    <label>MAXIMUM SESSION</label>
+    <input value="12 hours" disabled>
+
+    <label>BACKGROUND CHECK INTERVAL</label>
+    <input value="5–55 seconds (when backend is connected)" disabled>
+
+    <label>AGENT VERSION</label>
+    <input value="NEXUS-12 / 1.0" disabled>
+
+    <label>DEPLOYMENT</label>
+    <input value="Cloudflare Pages interface" disabled>
+
+   </section>
+
+   <section class="card" style="margin-top:16px">
+    <h2 class="section-title">System connection</h2>
+    <div class="tag">BACKEND NOT CONNECTED</div>
+    <p class="timer-note" style="margin-top:13px">
+     Connect an AI model and an authorized browser automation service to enable actual autonomous execution.
+    </p>
+   </section>
+
+  </div>
+
+ </div>
+
+ <div class="footer">
+  NEXUS-12 · AUTONOMOUS SOFTWARE ENGINEERING
+  <br><br>
+  BUILD · TEST · IMPROVE · DELIVER
+ </div>
+
+</main>
+
+<div class="modal" id="promptModal">
+ <div class="modal-content">
+  <h2>NEXUS-12 SYSTEM PROMPT</h2>
+  <p class="timer-note">Instructions for the connected AI agent.</p>
+  <pre id="promptText"></pre>
+
+  <div class="actions">
+   <button class="primary" onclick="copyPrompt()">Copy instructions</button>
+   <button class="secondary" onclick="closePrompt()">Close</button>
+  </div>
+ </div>
+</div>
+
+<script>
+
+const MAX_SESSION = 12 * 60 * 60 * 1000;
+
+const SYSTEM_PROMPT = `
+IDENTITY: NEXUS-12
+
+You are an autonomous AI software engineer.
+
+MISSION:
+Develop, debug, test and improve software projects.
+Research technical solutions and navigate permitted websites.
+
+CORE RESPONSIBILITIES:
+1. Understand the assigned mission.
+2. Break complex projects into manageable steps.
+3. Write clean, maintainable code.
+4. Create complete working implementations.
+5. Test important functionality.
+6. Identify and correct errors.
+7. Preserve existing functionality when editing projects.
+8. Save progress regularly.
+9. Report blockers honestly.
+10. Produce a final completion report.
+
+BROWSER OPERATION:
+When an authorized browser automation tool is available:
+- Navigate websites using the visible interface.
+- Move the cursor for purposeful interactions.
+- Click permitted buttons and links.
+- Fill forms and inspect pages.
+- Use variable waiting intervals between 5 and 55 seconds when checking asynchronous processes.
+- Never fabricate human activity.
+- Never bypass CAPTCHAs or security controls.
+- Respect website terms and permissions.
+
+SESSION RULES:
+- Maximum operating time: 12 hours.
+- Maintain checkpoints.
+- Record completed and pending tasks.
+- Stop at the session limit.
+- Save progress before stopping.
+
+APPROVAL REQUIRED:
+Ask for permission before purchases, payments, publishing,
+sending messages, deleting important files or making
+irreversible changes.
+
+QUALITY:
+Never claim work is complete without verification.
+Never invent test results.
+Prioritize accuracy, security and working deliverables.
+
+FINAL OBJECTIVE:
+BUILD. TEST. IMPROVE. DELIVER.
+`;
+
+let status="idle";
+let startedAt=null;
+let elapsed=0;
+let remaining=MAX_SESSION;
+let timer=null;
+let tasksCompleted=0;
+let pausedAt=null;
+
+function formatTime(ms){
+ const seconds=Math.max(0,Math.floor(ms/1000));
+ const h=String(Math.floor(seconds/3600)).padStart(2,"0");
+ const m=String(Math.floor(seconds%3600/60)).padStart(2,"0");
+ const s=String(seconds%60).padStart(2,"0");
+ return `${h}:${m}:${s}`;
+}
+
+function updateUI(){
+
+ document.getElementById("statStatus").textContent=status.toUpperCase();
+
+ document.getElementById("statTime").textContent=
+ formatTime(elapsed);
+
+ document.getElementById("statTasks").textContent=
+ tasksCompleted;
+
+ document.getElementById("countdown").textContent=
+ formatTime(remaining);
+
+ document.getElementById("statusText").textContent=
+ status.toUpperCase();
+
+ document.getElementById("statusDot").className=
+ status==="running"?"dot active":"dot";
+
+ document.getElementById("startBtn").disabled=
+ status==="running";
+
+ document.getElementById("pauseBtn").disabled=
+ status!=="running";
+
+ document.getElementById("stopBtn").disabled=
+ status==="idle"||status==="stopped";
+
+ const percentage=
+ Math.min(100,(elapsed/MAX_SESSION)*100);
+
+ document.getElementById("progressBar").style.width=
+ percentage+"%";
+
+ document.getElementById("progressText").textContent=
+ `${percentage.toFixed(1)}% of the maximum session elapsed.`;
+}
+
+function addLog(message){
+
+ const log=document.getElementById("activityLog");
+
+ const empty=log.querySelector(".log-empty");
+ if(empty)empty.remove();
+
+ const item=document.createElement("div");
+ item.className="log-item";
+
+ const time=document.createElement("div");
+ time.className="log-time";
+ time.textContent=new Date().toLocaleTimeString();
+
+ const content=document.createElement("div");
+ content.textContent=message;
+
+ item.appendChild(time);
+ item.appendChild(content);
+
+ log.prepend(item);
+}
+
+function tick(){
+
+ if(status!=="running")return;
+
+ elapsed=Date.now()-startedAt;
+ remaining=Math.max(0,MAX_SESSION-elapsed);
+
+ updateUI();
+
+ if(remaining<=0){
+  stopAgent(true);
+ }
+}
+
+function startAgent(){
+
+ const mission=document.getElementById("mission").value.trim();
+
+ if(!mission){
+  alert("Enter a mission first.");
+  return;
+ }
+
+ if(status==="paused"){
+  startedAt=Date.now()-elapsed;
+  status="running";
+  addLog("Session resumed.");
+  timer=setInterval(tick,1000);
+  updateUI();
+  return;
+ }
+
+ if(status==="running")return;
+
+ elapsed=0;
+ remaining=MAX_SESSION;
+ tasksCompleted=0;
+ startedAt=Date.now();
+ status="running";
+
+ addLog("NEXUS-12 session started.");
+ addLog("Mission received: "+mission);
+ addLog("12-hour operating limit activated.");
+ addLog("Awaiting connection to AI execution backend.");
+
+ timer=setInterval(tick,1000);
+ updateUI();
+
+}
+
+function pauseAgent(){
+
+ if(status!=="running")return;
+
+ clearInterval(timer);
+
+ elapsed=Date.now()-startedAt;
+ remaining=Math.max(0,MAX_SESSION-elapsed);
+
+ status="paused";
+
+ addLog("Session paused. Execution timer stopped.");
+ updateUI();
+}
+
+function stopAgent(expired=false){
+
+ clearInterval(timer);
+
+ if(status==="idle"||status==="stopped")return;
+
+ status="stopped";
+
+ addLog(expired?
+  "Maximum 12-hour session limit reached. Session stopped.":
+  "Session stopped by operator.");
+
+ updateUI();
+}
+
+function clearLogs(){
+
+ document.getElementById("activityLog").innerHTML=
+ '<div class="log-empty">No activity recorded.</div>';
+}
+
+function showPrompt(){
+
+ document.getElementById("promptText").textContent=
+ SYSTEM_PROMPT;
+
+ document.getElementById("promptModal").style.display="flex";
+}
+
+function closePrompt(){
+ document.getElementById("promptModal").style.display="none";
+}
+
+async function copyPrompt(){
+
+ try{
+  await navigator.clipboard.writeText(SYSTEM_PROMPT);
+  alert("NEXUS-12 instructions copied.");
+ }catch(e){
+  alert("Clipboard access unavailable. Select and copy the prompt manually.");
+ }
+}
+
+updateUI();
+
+</script>
+
+</body>
+</html>
